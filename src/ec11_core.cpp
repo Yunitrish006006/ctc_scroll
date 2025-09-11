@@ -1,10 +1,10 @@
-#include "ec11_module.h"
+#include "ec11_core.h"
 
-EC11Module::EC11Module(uint8_t clk, uint8_t dt, uint8_t sw, bool debugMode)
+EC11Core::EC11Core(uint8_t clk, uint8_t dt, uint8_t sw, bool debugMode)
     : clkPin(clk), dtPin(dt), swPin(sw), debug(debugMode),
       lastButtonState(HIGH), lastClkState(HIGH), lastScroll(0), lastPress(false) {}
 
-void EC11Module::begin()
+void EC11Core::begin()
 {
     pinMode(clkPin, INPUT_PULLUP);
     pinMode(dtPin, INPUT_PULLUP);
@@ -13,11 +13,11 @@ void EC11Module::begin()
     lastClkState = digitalRead(clkPin);
     if (debug)
     {
-        Serial.println("[EC11Module] 初始化完成");
+        Serial.println("[EC11CoreModule] 初始化完成");
     }
 }
 
-void EC11Module::update()
+void EC11Core::update()
 {
     // 處理旋鈕
     int clkState = digitalRead(clkPin);
@@ -32,7 +32,7 @@ void EC11Module::update()
                 lastScroll = 1;
                 if (debug)
                 {
-                    Serial.println("[EC11Module] 旋鈕: 順時針");
+                    Serial.println("[EC11CoreModule] 旋鈕: 順時針");
                 }
             }
             else
@@ -40,7 +40,7 @@ void EC11Module::update()
                 lastScroll = -1;
                 if (debug)
                 {
-                    Serial.println("[EC11Module] 旋鈕: 逆時針");
+                    Serial.println("[EC11CoreModule] 旋鈕: 逆時針");
                 }
             }
         }
@@ -54,22 +54,22 @@ void EC11Module::update()
     {
         if (currentButtonState == LOW && lastButtonState == HIGH)
         {
-            Serial.println("[EC11Module] *** 按鈕被按下 ***");
+            Serial.println("[EC11CoreModule] *** 按鈕被按下 ***");
         }
         else if (currentButtonState == HIGH && lastButtonState == LOW)
         {
-            Serial.println("[EC11Module] 按鈕被釋放");
+            Serial.println("[EC11CoreModule] 按鈕被釋放");
         }
     }
     lastButtonState = currentButtonState;
 }
 
-int EC11Module::scroll()
+int EC11Core::scroll()
 {
     return lastScroll;
 }
 
-bool EC11Module::press()
+bool EC11Core::press()
 {
     return lastPress;
 }

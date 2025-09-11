@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "ec11_module.h"
+#include "ec11_core.h"
 
 // 設定針腳
 #define CLK_PIN 2
@@ -7,7 +7,7 @@
 #define SW_PIN 10
 #define LED_PIN 8
 
-EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN, true);
+EC11Core ec11(CLK_PIN, DT_PIN, SW_PIN, true);
 
 void setup()
 {
@@ -21,18 +21,22 @@ void setup()
 
   Serial.println("=== EC11 模組化測試 ===");
   ec11.begin();
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW); // 預設LED關閉
 }
 
 void loop()
 {
   // 按鈕觸發LED切換
   static bool lastBtn = HIGH;
-  bool nowBtn = digitalRead(ec11.swPin);
+  static bool ledState = LOW;
+  bool nowBtn = ec11.press();
   if (nowBtn == LOW && lastBtn == HIGH)
   {
-    // led on
+    ledState = !ledState;
+    digitalWrite(LED_PIN, ledState);
     if (ec11.debug)
-      Serial.println("[main] 按鈕觸發LED切換");
+      Serial.printf("[main] 按鈕觸發LED切換，LED狀態: %s\n", ledState ? "ON" : "OFF");
   }
   lastBtn = nowBtn;
 
