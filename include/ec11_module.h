@@ -7,6 +7,7 @@ class EC11Module : public EC11Core
 public:
     // 擴充狀態變數
     int scrollCount;               // 累計滾動次數
+    int pressedScrollCount;        // 按壓時的滾動次數
     int pressCount;                // resetTime 內的按壓次數
     unsigned long lastPressMillis; // 上一次按壓的時間
     bool lastPressState;           // 上一次的按壓狀態
