@@ -1,18 +1,20 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
-
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200); // Initialize serial communication at 115200 baud rate
+  while (!Serial && millis() < 5000)
+  {
+    ; // Wait for Serial to initialize, but don't wait forever
+  }
+  delay(1000); // Extra delay for stability
+  Serial.println("=== ESP32-C3 Started ===");
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  Serial.print("Loop count: ");
+  Serial.println(millis());
+  delay(5000); // Wait for 2 seconds
 }
