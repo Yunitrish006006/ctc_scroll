@@ -13,7 +13,7 @@ void EC11Core::begin()
     lastClkState = digitalRead(clkPin);
     if (debug)
     {
-        Serial.println("[EC11CoreModule] 初始化完成");
+        Serial.println("[EC11Core] 初始化完成");
     }
 }
 
@@ -32,7 +32,7 @@ void EC11Core::update()
                 lastScroll = 1;
                 if (debug)
                 {
-                    Serial.println("[EC11CoreModule] 旋鈕: 順時針");
+                    Serial.println("[EC11Core] 旋鈕: 順");
                 }
             }
             else
@@ -40,7 +40,7 @@ void EC11Core::update()
                 lastScroll = -1;
                 if (debug)
                 {
-                    Serial.println("[EC11CoreModule] 旋鈕: 逆時針");
+                    Serial.println("[EC11Core] 旋鈕: 逆");
                 }
             }
         }
@@ -54,11 +54,11 @@ void EC11Core::update()
     {
         if (currentButtonState == LOW && lastButtonState == HIGH)
         {
-            Serial.println("[EC11CoreModule] *** 按鈕被按下 ***");
+            Serial.println("[EC11Core] 按鈕被按下");
         }
         else if (currentButtonState == HIGH && lastButtonState == LOW)
         {
-            Serial.println("[EC11CoreModule] 按鈕被釋放");
+            Serial.println("[EC11Core] 按鈕被釋放");
         }
     }
     lastButtonState = currentButtonState;
