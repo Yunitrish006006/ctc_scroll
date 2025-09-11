@@ -55,35 +55,38 @@ void EC11Module::update()
                     Serial.printf("[EC11Module] [按壓中] 旋鈕移動: %d, 累計: %d\n", s, pressedScrollCount);
             }
         }
-        unsigned long now = millis();
-        if (p && !lastPressState)
-        {
-            pressedScrollCount = scrollCount;
-            if (debug)
-                Serial.printf("[EC11Module] 按壓時的滾動次數: %d\n", pressedScrollCount);
-            if (now - lastPressMillis > resetTime)
-            {
-                pressCount = 1;
-                if (debug)
-                    Serial.printf("[EC11Module] 按壓事件: 新計數開始 (resetTime: %d ms)\n", resetTime);
-            }
-            else
-            {
-                pressCount++;
-                if (debug)
-                    Serial.printf("[EC11Module] 按壓事件: 快速連擊, 當前計數: %d\n", pressCount);
-            }
-            lastPressMillis = now;
-        }
-        // 若超過resetTime未按壓，則自動歸零
-        if (now - lastPressMillis > resetTime && pressCount != 0)
-        {
-            if (debug)
-                Serial.printf("[EC11Module] 按壓計數歸零 (距離上次: %lu ms)\n", now - lastPressMillis);
-            pressCount = 0;
-        }
-        lastPressState = p;
     }
+    unsigned long now = millis();
+    if (p && !lastPressState)
+    {
+        pressedScrollCount = scrollCount;
+        if (debug)
+            Serial.printf("[EC11Module] 按壓時的滾動次數: %d\n", pressedScrollCount);
+        if (now - lastPressMillis > resetTime)
+        {
+            pressCount = 1;
+            if (debug)
+                Serial.printf("[EC11Module] 按壓事件: 新計數開始 (resetTime: %d ms)\n", resetTime);
+        }
+        else
+        {
+            pressCount++;
+        }
+        // 連續按壓(快速連擊) debug訊息
+        if (p && !lastPressState && (now - lastPressMillis <= resetTime) && debug && pressCount > 1)
+        {
+            Serial.printf("[EC11Module] 按壓事件: 快速連擊, 當前計數: %d\n", pressCount);
+        }
+        lastPressMillis = now;
+    }
+    // 若超過resetTime未按壓，則自動歸零
+    if (now - lastPressMillis > resetTime && pressCount != 0)
+    {
+        if (debug)
+            Serial.printf("[EC11Module] 按壓計數歸零 (距離上次: %lu ms)\n", now - lastPressMillis);
+        pressCount = 0;
+    }
+    lastPressState = p;
 }
 
 void EC11Module::reset()

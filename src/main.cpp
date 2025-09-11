@@ -7,7 +7,7 @@
 #define SW_PIN 10
 #define LED_PIN 8
 
-EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN, true);
+EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN);
 
 void setup()
 {
