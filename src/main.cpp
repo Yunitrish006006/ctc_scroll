@@ -27,26 +27,34 @@ void setup()
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
 }
-
-void loop()
+// --- LED 與按鈕處理函數 ---
+static bool ledState = LOW;
+void toggleLedState()
 {
-  static bool ledState = LOW;
+  ledState = !ledState;
+  digitalWrite(LED_PIN, !ledState);
+  if (DEBUG)
+    Serial.printf("[main] 按鈕觸發LED切換，LED狀態: %s\n", ledState ? "ON" : "OFF");
+}
+
+void handleButtonPress()
+{
   static bool lastBtn = false;
-  ec11.update();
   bool press = ec11.press();
   if (ec11.pressCount > 0 && press != lastBtn)
   {
     if (press)
     {
-      ledState = !ledState;
-      digitalWrite(LED_PIN, !ledState);
-      if (DEBUG)
-        Serial.printf("[main] 按鈕觸發LED切換，LED狀態: %s\n", ledState ? "ON" : "OFF");
+      toggleLedState();
     }
-
     lastBtn = press;
   }
+}
 
+void loop()
+{
+  ec11.update();
+  handleButtonPress();
   ec11.update();
   delay(5);
 }
