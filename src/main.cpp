@@ -6,6 +6,12 @@
 #define DT_PIN 3
 #define SW_PIN 10
 #define LED_PIN 8
+
+#define RED_LED1_PIN 9
+#define RED_LED2_PIN 10
+#define RED_LED3_PIN 11
+#define RED_LED4_PIN 12
+#define RED_LED5_PIN 13
 #define DEBUG true
 
 EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN);
@@ -26,6 +32,18 @@ void setup()
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
+
+  // 初始化紅色LED燈條
+  // pinMode(RED_LED1_PIN, OUTPUT);
+  // pinMode(RED_LED2_PIN, OUTPUT);
+  // pinMode(RED_LED3_PIN, OUTPUT);
+  // pinMode(RED_LED4_PIN, OUTPUT);
+  // pinMode(RED_LED5_PIN, OUTPUT);
+  // digitalWrite(RED_LED1_PIN, HIGH);
+  // digitalWrite(RED_LED2_PIN, HIGH);
+  // digitalWrite(RED_LED3_PIN, HIGH);
+  // digitalWrite(RED_LED4_PIN, HIGH);
+  // digitalWrite(RED_LED5_PIN, HIGH);
 }
 // --- LED 與按鈕處理函數 ---
 static bool ledState = LOW;
