@@ -10,16 +10,24 @@ void EC11Module::update()
     int s = scroll();
     if (s != 0)
     {
-        if (s < scrollRange && s > -scrollRange)
+        int nextScroll = scrollCount + s;
+        if (nextScroll > scrollRange)
         {
-            scrollCount += s;
+            scrollCount = scrollRange;
             if (debug)
-                Serial.printf("[EC11Module] 旋鈕移動: %d, 累計: %d\n", s, scrollCount);
+                Serial.printf("[EC11Module] 旋鈕累計超過最大值，已限制為 %d\n", scrollRange);
+        }
+        else if (nextScroll < -scrollRange)
+        {
+            scrollCount = -scrollRange;
+            if (debug)
+                Serial.printf("[EC11Module] 旋鈕累計低於最小值，已限制為 %d\n", -scrollRange);
         }
         else
         {
+            scrollCount = nextScroll;
             if (debug)
-                Serial.printf("[EC11Module] 旋鈕移動超出範圍: %d (允許範圍: %d ~ %d)\n", s, -scrollRange, scrollRange);
+                Serial.printf("[EC11Module] 旋鈕移動: %d, 累計: %d\n", s, scrollCount);
         }
     }
     // resetTime 內的按壓次數
