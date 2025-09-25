@@ -17,7 +17,7 @@
 #define DEBUG true
 #define RANGE 10
 
-EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN, false, RANGE, 800); // 最大滾動次數50，重置時間800ms
+EC11Module ec11(CLK_PIN, DT_PIN, SW_PIN, DEBUG, RANGE, 800); // 最大滾動次數50，重置時間800ms
 
 // MQTT 設定（請根據你的實際 broker 設定修改）
 MQTTConfig mqttConfig("192.168.1.5", 1883, "ctc_scroll_client", "mqtt", "mqtt");
